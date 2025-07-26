@@ -1,0 +1,109 @@
+#!/bin/bash
+
+# Ask for user information
+echo "Please enter your details:"
+read -p "Name: " user_name
+read -p "USN: " user_usn
+read -p "Department: " user_dept
+
+start_date=$(date '+%Y-%m-%d %H:%M:%S')  # Captures the current date and time
+
+# Sample questions with options
+questions=(
+    "What command is used to list files in a directory?|ls|cd|mkdir|rm"
+    "Which command is used to change the current directory?|cd|ls|pwd|mv"
+    "What command is used to copy files in UNIX?|cp|mv|rm|touch"
+    "What does the chmod command modify?|File permissions|File owner|File content|File size"
+    "How do you display the first 10 lines of a file?|head|tail|cat|cut"
+    "What command is used to display a manual for a command?|man|help|info|doc"
+    "Which command is used to search for a string in a file?|grep|sed|awk|find"
+    "What command is used to display system uptime?|uptime|top|time|ps"
+    "Which command is used to rename a file?|mv|rename|cp|edit"
+    "What command is used to find the size of available disk space?|df|du|disk|space"
+    "What command shows the process of the current user?|ps|top|ls|df"
+    "How can you view the manual page for a command?|man|help|info|guide"
+    "What command is used to remove a directory in UNIX?|rmdir|rm|touch|delete"
+    "Which command is used to display the last few lines of a file?|tail|head|cat|cut"
+     "Which command is used to create a new empty file?|touch|mkdir|cat|rm"
+    "What command is used to check the system's disk usage?|df|du|ls|ps"
+    "Which command allows you to search for files in a directory?|find|grep|ls|search"
+    "How do you move files in UNIX?|mv|cp|rm|mvfile"
+    "What command is used to display the contents of a file?|cat|head|tail|ls"
+    "Which command is used to display the current working directory?|pwd|cd|ls|dir"
+)
+
+score=0  # Initialize score
+total_questions=${#questions[@]}  # Total number of questions
+
+# Start timer
+start_time=$(date +%s)
+
+# Loop through each question in the array
+for question in "${questions[@]}"; do
+    # Check if 10 minutes have passed
+    current_time=$(date +%s)  # Get the current time in seconds
+    elapsed_time=$((current_time - start_time))  # Calculate elapsed time
+
+    # If 10 minutes have passed, break the loop and submit the quiz
+    if [ $elapsed_time -ge 600 ]; then
+        echo "Time is up! Submitting your quiz..."
+        break
+    fi
+
+     # Separate the question and options
+    IFS="|" read -r question_text option1 option2 option3 option4 <<< "$question"
+
+    # Create an array of options
+    options=("$option1" "$option2" "$option3" "$option4")
+
+    # Shuffle the options array randomly
+    shuffled_options=($(shuf -e "${options[@]}"))
+
+    # Find the index of the correct answer (option1)
+    correct_answer_index=0
+    if [[ "${shuffled_options[0]}" == "$option1" ]]; then
+        correct_answer="A"
+    elif [[ "${shuffled_options[1]}" == "$option1" ]]; then
+        correct_answer="B"
+    elif [[ "${shuffled_options[2]}" == "$option1" ]]; then
+        correct_answer="C"
+    else
+        correct_answer="D"
+    fi
+
+    # Display the question and shuffled options
+    echo "$question_text"
+    echo "A. ${shuffled_options[0]}"
+    echo "B. ${shuffled_options[1]}"
+    echo "C. ${shuffled_options[2]}"
+    echo "D. ${shuffled_options[3]}"
+
+    # Ask user for input and validate answer
+    read -p "Enter your answer (A/B/C/D or leave blank to skip): " user_answer
+
+    # Validate user input
+    while [[ ! "$user_answer" =~ ^[A-Da-d]$ && -n "$user_answer" ]]; do
+        echo "Invalid input. Please enter A, B, C, D, or leave blank to skip."
+        read -p "Enter your answer (A/B/C/D or leave blank to skip): " user_answer
+    done
+
+    # Check the answer
+    if [[ -z "$user_answer" ]]; then
+        continue  # No answer, skip
+    elif [[ "$user_answer" == "$correct_answer" ]]; then
+        ((score++))  # Correct answer, add 1 to score
+    else
+        ((score--))  # Incorrect answer, subtract 1 from score
+    fi
+done
+
+# End timer and calculate time taken
+end_time=$(date +%s)
+time_taken=$((end_time - start_time))
+
+# Display the final results in a single line with custom column widths
+echo ""
+echo "Quiz completed!"
+echo "+------------------------+---------------------+---------------------+------------+-------------------+---------->echo "| Name                  | USN                 | Department          | Score      | Time Taken (s)     | Start Dat>echo "+------------------------+---------------------+---------------------+------------+-------------------+---------->printf "| %-22s | %-15s | %-15s | %-10s | %-15s | %-20s |\n" "$user_name" "$user_usn" "$user_dept" "$score/$total_quest>echo "+------------------------+---------------------+---------------------+------------+-------------------+---------->
+# Save the results to a file
+echo "$user_name, $user_usn, $user_dept,$score, $time_taken" >> results.txt
