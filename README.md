@@ -1,9 +1,9 @@
-QuizIO 🎯
+**QuizIO**🎯
 
 **QuizIO** is an interactive, terminal-based quiz platform designed for UNIX systems. It provides a simple yet functional interface for conducting timed quizzes with automatic scoring and result recording.
 
 
-🧠 Features
+🧠 **Features**
 
 - ✅ **Multiple-choice quiz format**
 - 🔄 **Shuffling of options** using `shuff` flag
@@ -18,13 +18,13 @@ QuizIO 🎯
 
 
 
-💻 Technologies Used
+💻 **Technologies Used**
 
 - Bash / Shell scripting
 - UNIX command-line tools (like `date`, `read`, etc.)
 - File I/O for saving results
 
-Screenshots
+**Screenshots**
 
 <img width="819" height="115" alt="Screenshot 2025-09-02 234425" src="https://github.com/user-attachments/assets/5b48f53f-69df-4443-9d02-f7b597ae7d99" />
 <img width="816" height="491" alt="Screenshot 2025-09-02 234332" src="https://github.com/user-attachments/assets/51674788-35dd-49e4-885d-29f091448188" />
@@ -35,7 +35,7 @@ Screenshots
 
 
 
-🚀 How to Run
+🚀 **How to Run**
 
 ```bash
 # Give executable permission if needed
